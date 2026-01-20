@@ -1,56 +1,155 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Passenger Emergency Alert</title>
+  <title>Smart Passenger Safety System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
-    body { font-family: Arial; background:#f2f2f2; padding:20px; }
-    h2 { color:#c00000; text-align:center; }
-    input, textarea, button {
-      width:100%; padding:12px; margin-top:10px; font-size:16px;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
     }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .panel {
+      width: 50%;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    /* Passenger side */
+    .passenger {
+      background: #ffffff;
+      border-right: 3px solid #ccc;
+    }
+
+    /* Customer care side */
+    .care {
+      background: #eef3ff;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
     button {
-      background:red; color:white; border:none; font-weight:bold;
+      background: red;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 6px;
+    }
+
+    a {
+      color: blue;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .panel {
+        width: 100%;
+        height: 50vh;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<h2>🚨 Passenger Emergency Alert</h2>
+<div class="container">
 
-<input id="bus" placeholder="Bus Number">
-<textarea id="msg" placeholder="Describe the problem"></textarea>
+  <!-- PASSENGER SIDE -->
+  <div class="panel passenger">
+    <h2>🚨 Passenger Alert</h2>
 
-<button onclick="sendAlert()">SEND ALERT</button>
+    <input id="bus" placeholder="Bus Number">
+    <textarea id="issue" placeholder="Describe the problem"></textarea>
 
-<p id="status"></p>
+    <button onclick="sendAlert()">SEND ALERT</button>
+
+    <p id="status"></p>
+  </div>
+
+  <!-- CUSTOMER CARE SIDE -->
+  <div class="panel care">
+    <h2>📍 Customer Care Tracking</h2>
+
+    <div class="card" id="alertBox">
+      No alerts received yet.
+    </div>
+  </div>
+
+</div>
 
 <script>
 function sendAlert() {
   document.getElementById("status").innerText = "Getting live location...";
 
   navigator.geolocation.getCurrentPosition(
-    function(pos) {
-      let lat = pos.coords.latitude;
-      let lon = pos.coords.longitude;
-
-      let alertData = {
+    function(position) {
+      let data = {
         bus: document.getElementById("bus").value,
-        message: document.getElementById("msg").value,
-        location: `https://www.google.com/maps?q=${lat},${lon}`,
+        issue: document.getElementById("issue").value,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
         time: new Date().toLocaleString()
       };
 
-      localStorage.setItem("lastAlert", JSON.stringify(alertData));
+      localStorage.setItem("alertData", JSON.stringify(data));
+      document.getElementById("status").innerText = "✅ Alert sent!";
 
-      document.getElementById("status").innerHTML =
-        "✅ Alert sent!<br><a href='admin.html'>Customer Care Page</a>";
+      showAlert();
     },
     function() {
-      alert("Location permission required");
+      alert("Location permission required!");
     }
   );
 }
+
+function showAlert() {
+  let data = localStorage.getItem("alertData");
+  if (!data) return;
+
+  data = JSON.parse(data);
+
+  document.getElementById("alertBox").innerHTML = `
+    <p><b>Bus Number:</b> ${data.bus}</p>
+    <p><b>Issue:</b> ${data.issue}</p>
+    <p><b>Time:</b> ${data.time}</p>
+    <p><b>Live Location:</b><br>
+      <a href="https://www.google.com/maps?q=${data.lat},${data.lon}" target="_blank">
+        Track on Google Maps
+      </a>
+    </p>
+  `;
+}
+
+/* Load alert automatically if exists */
+showAlert();
 </script>
 
 </body>
