@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Passenger Safety System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Header */
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #0056b3;
+        }
+
+        section p {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+        }
+
+        /* Features Grid */
+        .features, .benefits, .future-scope {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #0056b3;
+        }
+
+        /* Prototype Section */
+        .prototype {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .prototype img, .prototype div {
+            flex: 1 1 300px;
+            max-width: 400px;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            background-color: #ffd700;
+            color: #0056b3;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #e6c200;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+        /* Responsive */
+        @media(max-width:768px){
+            header h1 {
+                font-size: 1.5rem;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Smart Passenger Safety System for Government Buses</h1>
+        <p>Enhancing passenger safety through real-time emergency response and GPS tracking</p>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#working">How It Works</a>
+            <a href="#prototype">Prototype</a>
+            <a href="#features">Features</a>
+            <a href="#benefits">Benefits</a>
+            <a href="#future">Future Scope</a>
+        </nav>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About the System</h2>
+        <p>Government bus passengers often face safety challenges, including delayed emergency response and lack of real-time location tracking. This intelligent system ensures that emergency alerts are instantly sent while sharing live bus location, enabling transport authorities to act faster and improve passenger trust.</p>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="working">
+        <h2>How It Works</h2>
+        <p>Our system integrates emergency buttons, GPS tracking, and a central control system. Here's the step-by-step process:</p>
+        <ol style="max-width:700px; margin:auto; font-size:1.1rem; line-height:1.8;">
+            <li>A passenger presses the emergency button installed inside the bus.</li>
+            <li>The system immediately triggers a buzzer and visual alerts within the bus.</li>
+            <li>Simultaneously, the GPS module records the live location of the bus.</li>
+            <li>The control room and transport authorities receive real-time notifications with exact location details.</li>
+            <li>Authorities can respond quickly, ensuring passenger safety and timely assistance.</li>
+        </ol>
+    </section>
+
+    <!-- Prototype Section -->
+    <section id="prototype">
+        <h2>Prototype Overview</h2>
+        <div class="prototype">
+            <img src="https://i.imgur.com/ZKc1C9J.png" alt="Bus Prototype Illustration">
+            <div>
+                <p>The physical prototype includes a government bus model equipped with:</p>
+                <ul>
+                    <li>Emergency buttons for passengers</li>
+                    <li>GPS tracking module</li>
+                    <li>Arduino or compatible microcontroller</li>
+                    <li>Buzzer and visual alert system</li>
+                </ul>
+                <p>Images show the setup of the bus and internal alert mechanisms.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <h2>Key Features</h2>
+        <div class="features">
+            <div class="card">
+                <i class="fas fa-bell"></i>
+                <h3>Real-Time Alerts</h3>
+                <p>Instant emergency notifications ensure passengers are never left unassisted.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Continuous GPS Tracking</h3>
+                <p>Live bus location helps authorities respond faster during emergencies.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-hand-pointer"></i>
+                <h3>Easy to Use</h3>
+                <p>Simple button press for passengers triggers automatic alerts and notifications.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Low-Cost Scalability</h3>
+                <p>Efficient design allows easy deployment across multiple government buses.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits">
+        <h2>Benefits</h2>
+        <div class="benefits">
+            <div class="card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Improved Passenger Safety</h3>
+            </div>
+            <div class="card">
+                <i class="fas fa-clock"></i>
+                <h3>Quicker Emergency Response</h3>
+            </div>
+            <div class="card">
+                <i class="fas fa-users"></i>
+                <h3>Increased Public Trust</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Scope Section -->
+    <section id="future">
+        <h2>Future Scope</h2>
+        <div class="future-scope">
+            <div class="card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile App Integration</h3>
+                <p>Passengers can track buses in real-time and receive notifications on their phones.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-video"></i>
+                <h3>CCTV Support</h3>
+                <p>Integrate surveillance cameras for added safety and evidence collection.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-ambulance"></i>
+                <h3>Direct Panic Alerts</h3>
+                <p>Emergency notifications can be sent directly to police and ambulance services.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Smart Passenger Safety System. All rights reserved. Designed for academic and innovation purposes.</p>
+    </footer>
+
+</body>
+</html>
