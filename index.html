@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Smart Passenger Safety Alert</title>
+  <title>Passenger Emergency Alert</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); // EmailJS public key
+    })();
+  </script>
+
   <style>
     body {
       font-family: Arial;
@@ -11,33 +19,29 @@
     }
     h2 {
       text-align: center;
-      color: #003366;
+      color: #b30000;
     }
     input, textarea, button {
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
+      margin-top: 10px;
       font-size: 16px;
     }
     button {
       background: red;
       color: white;
       border: none;
-      cursor: pointer;
-    }
-    #status {
-      margin-top: 15px;
       font-weight: bold;
     }
   </style>
 </head>
+
 <body>
 
 <h2>🚨 Passenger Emergency Alert</h2>
 
-<input type="text" id="busNumber" placeholder="Enter Bus Number" required>
-
-<textarea id="message" placeholder="Describe the problem" required></textarea>
+<input type="text" id="bus" placeholder="Bus Number" required>
+<textarea id="issue" placeholder="Describe the problem" required></textarea>
 
 <button onclick="sendAlert()">SEND ALERT</button>
 
@@ -47,37 +51,29 @@
 function sendAlert() {
   document.getElementById("status").innerText = "Getting live location...";
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, showError);
-  } else {
-    alert("Geolocation not supported");
-  }
-}
+  navigator.geolocation.getCurrentPosition(function(position) {
 
-function showPosition(position) {
-  let bus = document.getElementById("busNumber").value;
-  let msg = document.getElementById("message").value;
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
 
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
+    let params = {
+      bus_number: document.getElementById("bus").value,
+      issue: document.getElementById("issue").value,
+      location: "https://www.google.com/maps?q=" + lat + "," + lon
+    };
 
-  let alertText =
-    "🚨 EMERGENCY ALERT\n\n" +
-    "Bus Number: " + bus + "\n" +
-    "Message: " + msg + "\n\n" +
-    "Live Location:\n" +
-    "https://www.google.com/maps?q=" + lat + "," + lon;
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
+      .then(function() {
+        document.getElementById("status").innerText =
+          "✅ Alert sent to Customer Care!";
+      }, function(error) {
+        document.getElementById("status").innerText =
+          "❌ Failed to send alert";
+      });
 
-  // SEND USING EMAILJS OR SHOW ALERT
-  alert(alertText);
-
-  document.getElementById("status").innerText =
-    "Alert sent successfully!";
-}
-
-function showError(error) {
-  document.getElementById("status").innerText =
-    "Location access denied!";
+  }, function() {
+    alert("Location permission required!");
+  });
 }
 </script>
 
