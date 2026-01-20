@@ -3,45 +3,23 @@
 <head>
   <title>Passenger Emergency Alert</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function(){
-      emailjs.init("YOUR_PUBLIC_KEY"); // EmailJS public key
-    })();
-  </script>
-
   <style>
-    body {
-      font-family: Arial;
-      background: #f2f2f2;
-      padding: 20px;
-    }
-    h2 {
-      text-align: center;
-      color: #b30000;
-    }
+    body { font-family: Arial; background:#f2f2f2; padding:20px; }
+    h2 { color:#c00000; text-align:center; }
     input, textarea, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      font-size: 16px;
+      width:100%; padding:12px; margin-top:10px; font-size:16px;
     }
     button {
-      background: red;
-      color: white;
-      border: none;
-      font-weight: bold;
+      background:red; color:white; border:none; font-weight:bold;
     }
   </style>
 </head>
-
 <body>
 
 <h2>🚨 Passenger Emergency Alert</h2>
 
-<input type="text" id="bus" placeholder="Bus Number" required>
-<textarea id="issue" placeholder="Describe the problem" required></textarea>
+<input id="bus" placeholder="Bus Number">
+<textarea id="msg" placeholder="Describe the problem"></textarea>
 
 <button onclick="sendAlert()">SEND ALERT</button>
 
@@ -51,29 +29,27 @@
 function sendAlert() {
   document.getElementById("status").innerText = "Getting live location...";
 
-  navigator.geolocation.getCurrentPosition(function(position) {
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      let lat = pos.coords.latitude;
+      let lon = pos.coords.longitude;
 
-    let lat = position.coords.latitude;
-    let lon = position.coords.longitude;
+      let alertData = {
+        bus: document.getElementById("bus").value,
+        message: document.getElementById("msg").value,
+        location: `https://www.google.com/maps?q=${lat},${lon}`,
+        time: new Date().toLocaleString()
+      };
 
-    let params = {
-      bus_number: document.getElementById("bus").value,
-      issue: document.getElementById("issue").value,
-      location: "https://www.google.com/maps?q=" + lat + "," + lon
-    };
+      localStorage.setItem("lastAlert", JSON.stringify(alertData));
 
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", params)
-      .then(function() {
-        document.getElementById("status").innerText =
-          "✅ Alert sent to Customer Care!";
-      }, function(error) {
-        document.getElementById("status").innerText =
-          "❌ Failed to send alert";
-      });
-
-  }, function() {
-    alert("Location permission required!");
-  });
+      document.getElementById("status").innerHTML =
+        "✅ Alert sent!<br><a href='admin.html'>Customer Care Page</a>";
+    },
+    function() {
+      alert("Location permission required");
+    }
+  );
 }
 </script>
 
