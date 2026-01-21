@@ -1,40 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Customer Care Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: Arial; background:#eef; padding:20px; }
-    h2 { text-align:center; }
-    .card {
-      background:white; padding:15px; border-radius:8px;
-    }
-    a { color:blue; font-weight:bold; }
-  </style>
+    <title>Passenger Alert</title>
+    <style>
+        body { font-family: Arial; background:#f4f6f8; padding:20px; }
+        h2 { color:#0d47a1; }
+        input, textarea, button {
+            width:100%; padding:10px; margin-top:10px;
+        }
+        button {
+            background:#0d47a1; color:white; border:none;
+        }
+        .reply {
+            background:#e3f2fd;
+            padding:15px;
+            margin-top:20px;
+            border-radius:5px;
+        }
+    </style>
 </head>
 <body>
 
-<h2>📍 Customer Care – Bus Tracking</h2>
+<h2>Passenger Emergency Alert</h2>
 
-<div class="card" id="data">
-  No alerts received.
+<input id="name" placeholder="Passenger Name">
+<input id="bus" placeholder="Bus Number">
+<textarea id="msg" placeholder="Emergency Message"></textarea>
+
+<button onclick="sendAlert()">Send Alert to Admin</button>
+
+<div class="reply" id="replyBox" style="display:none;">
+    <h3>Admin Reply:</h3>
+    <p id="replyText"></p>
 </div>
 
 <script>
-let alert = localStorage.getItem("lastAlert");
-
-if (alert) {
-  alert = JSON.parse(alert);
-  document.getElementById("data").innerHTML = `
-    <p><b>Bus Number:</b> ${alert.bus}</p>
-    <p><b>Issue:</b> ${alert.message}</p>
-    <p><b>Time:</b> ${alert.time}</p>
-    <p><b>Live Location:</b><br>
-    <a href="${alert.location}" target="_blank">
-      Track on Google Maps
-    </a></p>
-  `;
+function sendAlert() {
+    const alertData = {
+        name: name.value,
+        bus: bus.value,
+        msg: msg.value,
+        reply: ""
+    };
+    localStorage.setItem("alert", JSON.stringify(alertData));
+    alert("Alert sent to Admin!");
 }
+
+function checkReply() {
+    const data = JSON.parse(localStorage.getItem("alert"));
+    if (data && data.reply) {
+        replyBox.style.display = "block";
+        replyText.innerText = data.reply;
+    }
+}
+
+setInterval(checkReply, 2000);
 </script>
 
 </body>
